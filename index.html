@@ -6,59 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body { margin:0; font-family: Arial, sans-serif; background: #f8f8fa; }
-    #map { width: 100vw; height: 70vh; }
-    .country-list {
-      display: flex;
-      flex-wrap: wrap;
-      background: #fff;
-      padding: 20px 0;
-      border-top: 1px solid #eee;
-      justify-content: center;
-    }
-    .country-col {
-      flex: 1 1 20%;
-      min-width: 180px;
-      padding: 0 10px;
-    }
-    .country-btn {
-      display: block;
-      width: 100%;
-      background: none;
-      border: none;
-      color: #4b2e83;
-      font-size: 16px;
-      text-align: left;
-      padding: 8px 0;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .country-btn.selected { color: #0a2540; font-weight: bold; }
-    .mapboxgl-popup-content {
-      width: 350px;
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px 10px;
-    }
-    .popup-logo {
-      max-width: 80px;
-      max-height: 60px;
-      margin-bottom: 12px;
-    }
-    .popup-link {
-      color: #4b2e83;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: bold;
-      display: block;
-      margin-bottom: 6px;
-    }
-  </style>
 </head>
 <body>
   <div id="map"></div>
@@ -152,7 +99,8 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v11',
       center: [20, 20],
-      zoom: 1.5
+      zoom: 1.5,
+      projection: 'mercator' // Ensures flat map
     });
 
     // Add points to map
@@ -187,7 +135,7 @@
       popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 })
         .setLngLat(reg.coords)
         .setHTML(`
-          <img class="popup-logo" src="${reg.logo}" alt="${reg.country} logo" />
+          <img class="popup-logo" src="/logo/${reg.logo}" alt="${reg.country} logo" />
           <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
         `)
         .setMaxWidth("350px")
@@ -229,9 +177,30 @@
     }
 
     map.on('load', () => {
-      addMarkers();
-      buildCountryList();
+    // Hide country borders and labels
+    const layers = map.getStyle().layers;
+    layers.forEach(layer => {
+      // Hide country borders
+      if (
+        layer.id.includes('country') && 
+        (layer.type === 'line' || layer.type === 'fill')
+      ) {
+        map.setLayoutProperty(layer.id, 'visibility', 'none');
+      }
+      // Hide country labels
+      if (
+        layer.id.includes('country-label') ||
+        layer.id.includes('country-label-lg') ||
+        layer.id.includes('country-label-md') ||
+        layer.id.includes('country-label-sm')
+      ) {
+        map.setLayoutProperty(layer.id, 'visibility', 'none');
+      }
     });
+
+    addMarkers();
+    buildCountryList();
+  });
   </script>
 </body>
 </html>
