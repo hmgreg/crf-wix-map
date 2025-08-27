@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRF Registries Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background: #f8f8fa; }
+    #map { width: 100vw; height: 70vh; }
+    .country-list {
+      display: flex;
+      flex-wrap: wrap;
+      background: #fff;
+      padding: 20px 0;
+      border-top: 1px solid #eee;
+      justify-content: center;
+    }
+    .country-col {
+      flex: 1 1 20%;
+      min-width: 180px;
+      padding: 0 10px;
+    }
+    .country-btn {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      color: #4b2e83;
+      font-size: 16px;
+      text-align: left;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .country-btn.selected { color: #0a2540; font-weight: bold; }
+    .mapboxgl-popup-content {
+      width: 350px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .popup-logo {
+      max-width: 80px;
+      max-height: 60px;
+      margin-bottom: 12px;
+    }
+    .popup-link {
+      color: #4b2e83;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="country-list" id="countryList"></div>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaGFwcHltb25kYXkiLCJhIjoiY21kZXpjNGx2MDhmOTJrb3Bja2ViMW5qcyJ9.rrWtPNbSr1AXBiGQl8AY6A';
+
+    const registries = [
+      {
+        name: "Anguilla Financial Services Commission",
+        country: "Anguilla",
+        website: "http://www.commercialregistry.ai/acorn-welcome.html",
+        coords: [-63.053, 18.217],
+        logo: "Anguilla.png"
+      },
+      {
+        name: "Australian Registry Business Services",
+        country: "Australia",
+        website: "https://register.business.gov.au/",
+        coords: [144.9632, -37.8142],
+        logo: "Australia.png"
+      },
+      {
+        name: "State Tax Service under the Ministry of Economy of the Republic of Azerbaijan",
+        country: "Azerbaijan",
+        website: "http://www.taxes.gov.az/index.php",
+        coords: [49.8671, 40.4093],
+        logo: "Azerbaijan.png"
+      },
+      {
+        name: "Registrar of Joint Stock Companies and Firms, Ministry of Commerce",
+        country: "Bangladesh",
+        website: "http://roc.gov.bd",
+        coords: [90.3953, 23.7509],
+        logo: "Bangladesh.png"
+      },
+      {
+        name: "Belize Financial Services Commission",
+        country: "Belize",
+        website: "https://www.belizefsc.org.bz/",
+        coords: [-88.768, 17.2479],
+        logo: "Belize.png"
+      },
+      {
+        name: "Registrar of Companies",
+        country: "Bermuda",
+        website: "http://www.roc.gov.bm/",
+        coords: [-64.7821, 32.2953],
+        logo: "Bermuda.png"
+      },
+      {
+        name: "Companies and Intellectual Property Authority (CIPA)",
+        country: "Botswana",
+        website: "http://www.cipa.co.bw/home",
+        coords: [25.9088, -24.6581],
+        logo: "Botswana.png"
+      },
+      {
+        name: "BVI Financial Services Commission",
+        country: "British Virgin Islands",
+        website: "http://www.bvifsc.vg",
+        coords: [-64.6147, 18.4305],
+        logo: "British-Virgin-Islands.png"
+      },
+      {
+        name: "Registry Agency, Republic of Bulgaria",
+        country: "Bulgaria",
+        website: "https://portal.registryagency.bg",
+        coords: [23.3606, 42.6802],
+        logo: "Bulgaria.png"
+      },
+      {
+        name: "Business Registration Department – Ministry of Commerce",
+        country: "Cambodia",
+        website: "http://www.businessregistration.moc.gov.kh",
+        coords: [104.8784, 11.556],
+        logo: "Cambodia.png"
+      },
+      {
+        name: "Corporations Canada",
+        country: "Canada",
+        website: "https://www.ic.gc.ca/eic/site/cd-dgc.nsf/eng/home",
+        coords: [-75.7129, 45.4240],
+        logo: "Canada.png"
+      }
+    ];
+
+    // Map setup
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [20, 20],
+      zoom: 1.5
+    });
+
+    // Add points to map
+    let markers = [];
+    let selectedCountry = null;
+    let popup = null;
+
+    function addMarkers() {
+      markers.forEach(m => m.remove());
+      markers = [];
+      registries.forEach((reg, idx) => {
+        const el = document.createElement('div');
+        el.style.width = '18px';
+        el.style.height = '18px';
+        el.style.borderRadius = '50%';
+        el.style.background = (selectedCountry === reg.country) ? '#0a2540' : '#a259e6';
+        el.style.border = '2px solid #fff';
+        el.style.boxShadow = '0 0 4px rgba(0,0,0,0.15)';
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', () => showPopup(reg));
+        const marker = new mapboxgl.Marker(el)
+          .setLngLat(reg.coords)
+          .addTo(map);
+        markers.push(marker);
+      });
+    }
+
+    function showPopup(reg) {
+      selectedCountry = reg.country;
+      addMarkers();
+      if (popup) popup.remove();
+      popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 })
+        .setLngLat(reg.coords)
+        .setHTML(`
+          <img class="popup-logo" src="${reg.logo}" alt="${reg.country} logo" />
+          <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
+        `)
+        .setMaxWidth("350px")
+        .addTo(map);
+      // Scroll to country in list
+      highlightCountryInList();
+    }
+
+    // Country list
+    function buildCountryList() {
+      const listDiv = document.getElementById('countryList');
+      listDiv.innerHTML = '';
+      // Split into 5 columns
+      const cols = [[],[],[],[],[]];
+      registries.forEach((reg, i) => cols[i % 5].push(reg));
+      cols.forEach(colRegs => {
+        const colDiv = document.createElement('div');
+        colDiv.className = 'country-col';
+        colRegs.forEach(reg => {
+          const btn = document.createElement('button');
+          btn.className = 'country-btn';
+          btn.textContent = reg.country;
+          btn.onclick = () => showPopup(reg);
+          colDiv.appendChild(btn);
+        });
+        listDiv.appendChild(colDiv);
+      });
+      highlightCountryInList();
+    }
+
+    function highlightCountryInList() {
+      document.querySelectorAll('.country-btn').forEach(btn => {
+        if (btn.textContent === selectedCountry) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+    }
+
+    map.on('load', () => {
+      addMarkers();
+      buildCountryList();
+    });
+  </script>
+</body>
+</html>
