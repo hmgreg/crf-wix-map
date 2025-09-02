@@ -97,7 +97,7 @@ const registries = [
     country: "Germany",
     website: "https://www.justiz.nrw.de/WebPortal_en_Relaunch/index.php",
     coords: [6.781569, 51.223832],
-    logo: "Germany-North Rhine-Westphalia.png"
+    logo: "Germany-North-Rhine-Westphalia.png"
     },
     {
     name: "Office of the Registrar of Companies",
