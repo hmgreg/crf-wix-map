@@ -54,8 +54,18 @@
 
     function showPopup(reg) {
       selectedCountry = reg.country;
-      addMarkers();
-      //if (popup) popup.remove();
+      
+      // Update marker colors dynamically without removing/re-adding
+      markers.forEach(marker => {
+        const el = marker.getElement();
+        const regData = registries.find(r => r.coords[0] === marker.getLngLat().lng && r.coords[1] === marker.getLngLat().lat);
+        if (regData) {
+          el.style.background = (regData.country === selectedCountry) ? '#0a2540' : '#812383';
+        }
+      });
+
+      // Create and open popup
+      if (popup) popup.remove();
       popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 })
         .setLngLat(reg.coords)
         .setHTML(`
@@ -64,7 +74,7 @@
         `)
         .setMaxWidth("350px")
         .addTo(map);
-      // Scroll to country in list
+
       highlightCountryInList();
     }
 
