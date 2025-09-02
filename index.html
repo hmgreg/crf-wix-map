@@ -43,6 +43,10 @@
         el.addEventListener('click', () => showPopup(reg));
         const marker = new mapboxgl.Marker(el)
           .setLngLat(reg.coords)
+          .setPopup(new mapboxgl.Popup().setHTML(`
+            <img class="popup-logo" src="./logo/${reg.logo}" alt="${reg.country} logo" />
+            <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
+          `))
           .addTo(map);
         markers.push(marker);
       });
