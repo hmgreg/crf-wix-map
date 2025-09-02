@@ -51,7 +51,7 @@
     function showPopup(reg) {
       selectedCountry = reg.country;
       addMarkers();
-      if (popup) popup.remove();
+      //if (popup) popup.remove();
       popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 })
         .setLngLat(reg.coords)
         .setHTML(`

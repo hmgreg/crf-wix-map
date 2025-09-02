@@ -16,7 +16,7 @@ body {
     justify-content: center;
 }
 .country-col {
-    flex: 1 1 20%;
+    flex: 1 1 18%;
     min-width: 180px;
     padding: 0 10px;
 }
