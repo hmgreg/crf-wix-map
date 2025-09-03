@@ -32,7 +32,7 @@
       markers.forEach(m => m.remove());
       markers = [];
       registries.forEach((reg, idx) => {
-        const el = document.createElement('div');
+        /*const el = document.createElement('div');
         el.style.width = '18px';
         el.style.height = '18px';
         el.style.borderRadius = '50%';
@@ -48,7 +48,29 @@
             <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
           `))
           .addTo(map);
-        markers.push(marker);
+        markers.push(marker);*/
+        const el = document.createElement('div');
+        el.style.width = '18px';
+        el.style.height = '18px';
+        el.style.borderRadius = '50%';
+        el.style.background = (selectedCountry === reg.country) ? '#0a2540' : '#812383';
+        el.style.border = '2px solid #fff';
+        el.style.boxShadow = '0 0 4px rgba(0,0,0,0.15)';
+        el.style.cursor = 'pointer';
+
+        const popup = new mapboxgl.Popup({
+          closeOnClick: true,
+          anchor: 'bottom',
+          offset: 25
+        }).setHTML(`
+          <img class="popup-logo" src="./logo/${reg.logo}" alt="${reg.country} logo" />
+          <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
+        `);
+
+        const marker = new mapboxgl.Marker({ element: el /*, offset: [0, -9] if you want to lift the marker itself */ })
+          .setLngLat(reg.coords) // ensure this is [lng, lat]
+          .setPopup(popup)
+          .addTo(map);
       });
     }
 
