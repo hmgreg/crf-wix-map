@@ -38,18 +38,20 @@ body {
 }
 .mapboxgl-popup-content {
     width: 350px;
-    min-height: 180px;
+    min-height: 140px;
     display: flex;
     flex-direction: column;
     align-items: left;
     justify-content: left;
     text-align: center;
-    padding: 20px 10px;
+    padding: 15px 18px;
 }
 .popup-logo {
     max-width: 105px;
     max-height: 80px;
     margin-bottom: 12px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .popup-link {
     color: #4b2e83;
