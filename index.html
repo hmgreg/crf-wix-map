@@ -30,60 +30,67 @@
     map.touchZoomRotate.disable(); // disables pinch zoom and rotation on touch devices
 
     // Add points to map
+    let markers = [];
+    let selectedCountry = null;
+    //let popup = null;
     let popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 });
 
     function addMarkers() {
-      markers.forEach(m => m.remove());
-      markers = [];
-      registries.forEach(reg => {
-        const el = document.createElement('div');
-        el.style.width = '18px';
-        el.style.height = '18px';
-        el.style.borderRadius = '50%';
-        el.style.background = (selectedCountry === reg.country) ? '#0a2540' : '#812383';
-        el.style.border = '2px solid #fff';
-        el.style.boxShadow = '0 0 4px rgba(0,0,0,0.15)';
-        el.style.cursor = 'pointer';
+  markers.forEach(m => m.remove());
+  markers = [];
+  registries.forEach(reg => {
+    const el = document.createElement('div');
+    el.style.width = '18px';
+    el.style.height = '18px';
+    el.style.borderRadius = '50%';
+    el.style.background = (selectedCountry === reg.country) ? '#0a2540' : '#812383';
+    el.style.border = '2px solid #fff';
+    el.style.boxShadow = '0 0 4px rgba(0,0,0,0.15)';
+    el.style.cursor = 'pointer';
 
-        const marker = new mapboxgl.Marker({ element: el })
-          .setLngLat(reg.coords)
-          .addTo(map);
+    const marker = new mapboxgl.Marker({ element: el })
+      .setLngLat(reg.coords)
+      .addTo(map);
 
-        // When marker is clicked, show popup
-        el.addEventListener('click', () => showPopup(reg));
+    // Attach click to marker
+    marker.getElement().addEventListener('click', (e) => {
+      e.stopPropagation(); // prevent map click from firing
+      showPopup(reg);
+    });
 
-        markers.push(marker);
-      });
+
+    markers.push(marker);
+  });
+}
+
+function showPopup(reg) {
+  selectedCountry = reg.country;
+
+  // Update marker colors
+  markers.forEach(marker => {
+    const el = marker.getElement();
+    const regData = registries.find(
+      r => r.coords[0] === marker.getLngLat().lng &&
+           r.coords[1] === marker.getLngLat().lat
+    );
+    if (regData) {
+      el.style.background = (regData.country === selectedCountry) ? '#0a2540' : '#812383';
     }
+  });
 
-    function showPopup(reg) {
-      selectedCountry = reg.country;
+  // Always close popup before opening new
+  popup.remove();
+  popup
+    .setLngLat(reg.coords)
+    .setHTML(`
+      <img class="popup-logo" src="./logo/${reg.logo}" alt="${reg.country} logo" />
+      <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
+    `)
+    .setMaxWidth("350px")
+    .addTo(map);
 
-      // Update marker colors
-      markers.forEach(marker => {
-        const el = marker.getElement();
-        const regData = registries.find(
-          r => r.coords[0] === marker.getLngLat().lng &&
-              r.coords[1] === marker.getLngLat().lat
-        );
-        if (regData) {
-          el.style.background = (regData.country === selectedCountry) ? '#0a2540' : '#812383';
-        }
-      });
-
-      // Always close popup before opening new
-      popup.remove();
-      popup
-        .setLngLat(reg.coords)
-        .setHTML(`
-          <img class="popup-logo" src="./logo/${reg.logo}" alt="${reg.country} logo" />
-          <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
-        `)
-        .setMaxWidth("350px")
-        .addTo(map);
-
-      highlightCountryInList();
-    }
+  highlightCountryInList();
+}
 
     // Country list
     function buildCountryList() {
@@ -138,6 +145,27 @@
         map.setLayoutProperty(layer.id, 'visibility', 'none');
       }
     });
+
+    // close the popup when clicking outside on the map
+    map.on('click', (e) => {
+      // If popup is open and click is NOT on a marker element -> close it
+      if (popup && popup.isOpen()) {
+        // Check if clicked element is one of our marker divs
+        const isMarkerClick = e.originalEvent.target.closest('.mapboxgl-marker');
+        if (!isMarkerClick) {
+          popup.remove();
+          selectedCountry = null;
+          highlightCountryInList();
+
+          // Reset all markers back to default color
+          markers.forEach(marker => {
+            const el = marker.getElement();
+            el.style.background = '#812383';
+          });
+        }
+      }
+    });
+
 
     addMarkers();
     buildCountryList();
