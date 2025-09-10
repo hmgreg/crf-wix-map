@@ -31,6 +31,7 @@ body {
     padding: 8px 0;
     cursor: pointer;
     transition: color 0.2s;
+    text-align: center;
 }
 .country-btn.selected { 
     color: #0a2540; 
