@@ -30,15 +30,12 @@
     map.touchZoomRotate.disable(); // disables pinch zoom and rotation on touch devices
 
     // Add points to map
-    let markers = [];
-    let selectedCountry = null;
-    let popup = null;
+    let popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 });
 
     function addMarkers() {
       markers.forEach(m => m.remove());
       markers = [];
-      registries.forEach((reg, idx) => {
-
+      registries.forEach(reg => {
         const el = document.createElement('div');
         el.style.width = '18px';
         el.style.height = '18px';
@@ -48,37 +45,35 @@
         el.style.boxShadow = '0 0 4px rgba(0,0,0,0.15)';
         el.style.cursor = 'pointer';
 
-        const popup = new mapboxgl.Popup({
-          closeOnClick: true,
-          anchor: 'bottom',
-          offset: 25
-        }).setHTML(`
-          <img class="popup-logo" src="./logo/${reg.logo}" alt="${reg.country} logo" />
-          <a class="popup-link" href="${reg.website}" target="_blank">${reg.name}</a>
-        `);
-
-        const marker = new mapboxgl.Marker({ element: el /*, offset: [0, -9] if you want to lift the marker itself */ })
-          .setLngLat(reg.coords) // ensure this is [lng, lat]
-          .setPopup(popup)
+        const marker = new mapboxgl.Marker({ element: el })
+          .setLngLat(reg.coords)
           .addTo(map);
+
+        // When marker is clicked, show popup
+        el.addEventListener('click', () => showPopup(reg));
+
+        markers.push(marker);
       });
     }
 
     function showPopup(reg) {
       selectedCountry = reg.country;
-      
-      // Update marker colors dynamically without removing/re-adding
+
+      // Update marker colors
       markers.forEach(marker => {
         const el = marker.getElement();
-        const regData = registries.find(r => r.coords[0] === marker.getLngLat().lng && r.coords[1] === marker.getLngLat().lat);
+        const regData = registries.find(
+          r => r.coords[0] === marker.getLngLat().lng &&
+              r.coords[1] === marker.getLngLat().lat
+        );
         if (regData) {
           el.style.background = (regData.country === selectedCountry) ? '#0a2540' : '#812383';
         }
       });
 
-      // Create and open popup
-      if (popup) popup.remove();
-      popup = new mapboxgl.Popup({ closeOnClick: true, offset: 25 })
+      // Always close popup before opening new
+      popup.remove();
+      popup
         .setLngLat(reg.coords)
         .setHTML(`
           <img class="popup-logo" src="./logo/${reg.logo}" alt="${reg.country} logo" />
