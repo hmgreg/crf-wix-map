@@ -142,6 +142,13 @@ const registries = [
     logo: "Ireland.png"
     },
     {
+    name: "Central Registry",
+    country: "Isle of Man",
+    website: "http://www.Gov.im/centralregistry",
+    coords: [-4.4819, 54.1500],
+    logo: "Isle-of-Man.png"
+    },
+    {
     name: "The Israeli Corporations Authority (ICA), Ministry of Justice",
     country: "Israel",
     website: "http://www.justice.gov.il/En/Units/IsraeliCorporations/Pages/default.aspx",
@@ -198,6 +205,13 @@ const registries = [
     logo: "Maldives.png"
     },
     {
+    name: "Malta Business Registry",
+    country: "Malta",
+    website: "https://mbr.mt/",
+    coords: [14.5146, 35.8997],
+    logo: "Malta.png"
+    },
+    {
     name: "Corporate and Business Registration Department",
     country: "Mauritius",
     website: "http://companies.govmu.org/English/Pages/default.aspx",
@@ -210,6 +224,13 @@ const registries = [
     website: "http://dica.gov.mm",
     coords: [96.1735, 16.8281],
     logo: "Myanmar.png"
+    },
+    {
+    name: "Business and Intellectual Property Authority (BIPA)",
+    country: "Namibia",
+    website: "http://www.bipa.na",
+    coords: [17.0832, -22.5597],
+    logo: "Namibia.png"
     },
     {
     name: "The Netherlands Chamber of Commerce",
