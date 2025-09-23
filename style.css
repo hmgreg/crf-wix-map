@@ -7,7 +7,13 @@ body {
     width: 100vw; 
     height: 70vh; 
 }
-.country-list {
+.country-dropdown {
+    margin: 10px 0px;
+    padding: 8px 4px;
+    font-size: 16px;
+    max-width: 300px;
+}
+/*.country-list {
     display: flex;
     flex-wrap: wrap;
     background: #fff;
@@ -36,7 +42,7 @@ body {
 .country-btn.selected { 
     color: #0a2540; 
     font-weight: bold; 
-}
+}*/
 .mapboxgl-popup-content {
     width: 350px;
     min-height: 140px;
