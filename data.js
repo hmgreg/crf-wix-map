@@ -12,7 +12,7 @@ const registries = [
     name: "Australian Securities & Investments Commission",
     country: "Australia",
     website: "https://www.asic.gov.au/",
-    coords: [144.9695939, –37.8144378],
+    coords: [144.9695939, -37.8144378],
     logo: "Australia.png"
     },
     {
