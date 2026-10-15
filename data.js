@@ -86,6 +86,34 @@ const registries = [
     logo: "Cook-Islands.png"
     },
     {
+    name: "Danish Business Authority",
+    country: "Denmark",
+    website: "https://danishbusinessauthority.dk",
+    coords: [12.597027, 55.6974874],
+    logo: "Denmark.png"
+    },
+    {
+    name: "Centro Nacional de Registros",
+    country: "El Salvador",
+    website: "https://www.cnr.gob.sv/",
+    coords: [-89.226, 13.701],
+    logo: "El-Salvador.png"
+    },
+    {
+    name: "CONSEIL NATIONAL DES GREFFIERS DES TRIBUNAUX DE COMMERCE",
+    country: "France",
+    website: "https://www.cngtc.fr",
+    coords: [2.3284979, 48.8679582],
+    logo: "France.png"
+    },
+    {
+    name: "National Agency of Public Registry under the Ministry of Justice of Georgia",
+    country: "Georgia",
+    website: "https://www.napr.gov.ge",
+    coords: [41.6776204, 44.8238547],
+    logo: "Georgia.png"
+    },
+    {
     name: "Bundesanzeiger Verlag GmbH",
     country: "Germany",
     website: "https://www.unternehmensregister.de/ureg/?submitaction=language&language=en",
@@ -184,6 +212,20 @@ const registries = [
     logo: "Lesotho.png"
     },
     {
+    name: "Office of Justice",
+    country: "Liechtenstein",
+    website: "https://www.llv.li/de/landesverwaltung/amt-fuer-justiz",
+    coords: [9.52054, 47.13743],
+    logo: "Liechtenstein.png" /* missing logo */
+    },
+    {
+    name: "Department of Registrar General",
+    country: "Malawai",
+    website: "https://www.registrargeneral.gov.mw",
+    coords: [35.0078455, -15.7873515],
+    logo: "Malawai.jpg"
+    },
+    {
     name: "Companies Commission of Malaysia (SSM)",
     country: "Malaysia",
     website: "http://www.ssm.com.my",
@@ -217,6 +259,20 @@ const registries = [
     website: "http://companies.govmu.org/English/Pages/default.aspx",
     coords: [57.5012, -20.1609],
     logo: "Mauritius.png"
+    },
+    {
+    name: "General Authority for State Registration",
+    country: "Mongolia",
+    website: "https://burtgel.gov.mn/",
+    coords: [106.9123765, 47.9240345],
+    logo: "Mongolia.jpg"
+    },
+    {
+    name: "Office Marocain de la Propriété Industrielle et Commerciale (OMPIC)",
+    country: "Morocco",
+    website: "https://www.ompic.ma",
+    coords: [33.5258293, -7.6395996],
+    logo: "Morocco.jpg"
     },
     {
     name: "Ministry of National Planning and Economic Development – Directorate of Investment and Company Administration",
@@ -254,6 +310,27 @@ const registries = [
     logo: "North-Macedonia.png"
     },
     {
+    name: "International Financial Centre of Oman",
+    country: "Oman",
+    website: "https://ifcoman.om",
+    coords: [58.432, 23.596],
+    logo: "Oman.png"
+    },
+    {
+    name: "Securities and Exchange Commission of Pakistan",
+    country: "Pakistan",
+    website: "http://www.secp.gov.pk/",
+    coords: [73.0629301, 33.7158703],
+    logo: "Pakistan.png"
+    },
+    {
+    name: "Company Registrar",
+    country: "Palestine",
+    website: "https://www.mne.gov.ps",
+    coords: [35.1852825, 31.9073856],
+    logo: "Palestine.jpg"
+    },
+    {
     name: "Investment Promotion Authority",
     country: "Papua New Guinea",
     website: "https://www.ipa.gov.pg/",
@@ -268,9 +345,9 @@ const registries = [
     logo: "Philippines.png"
     },
     {
-    name: "Qatar Financial Centre Companies Registration Office",
-    country: "Qatar Financial Centre",
-    website: "http://www.qfc.qa/en/Operate/CRO/Pages/PublicRegister.aspx",
+    name: "The Companies Registration Office",
+    country: "Qatar",
+    website: "http://www.qfc.com.qa/cro",
     coords: [51.531, 25.2854],
     logo: "Qatar.png"
     },
@@ -331,6 +408,13 @@ const registries = [
     logo: "Sri-Lanka.png"
     },
     {
+    name: "Financial Services Regulatory Authority",
+    country: "St Helena, Ascension and Tristan da Cunha",
+    website: "https://www.fsra.sh",
+    coords: [-5.7181, -15.9244],
+    logo: "St-Helena.png"
+    },
+    {
     name: "Department of Business Development, Ministry of Commerce",
     country: "Thailand",
     website: "http://www.dbd.go.th/dbdweb_en/main.php?filename=index",
@@ -387,6 +471,13 @@ const registries = [
     logo: "United-Kingdom.png"
     },
     {
+    name: "Corporations Division - Office of the Secretary of the Commonwealth of Massachusetts",
+    country: "United States of America -  Massachusetts",
+    website: "https://www.sec.state.ma.us/divisions/corporations/corporations.htm",
+    coords: [-71.062333, 42.359527],
+    logo: "USA-Massachusetts.png" /* missing logo */
+    },
+    {
     name: "Department of Licensing & Consumer Protection",
     country: "United States of America, (Washington)",
     website: "https://dlcp.dc.gov/",
@@ -401,10 +492,17 @@ const registries = [
     logo: "Vanuatu.png"
     },
     {
-    name: "Agency for Business Registration – Ministry of Planning and Investment",
-    country: "Vietnam",
-    website: "https://dangkykinhdoanh.gov.vn/Default.aspx?tabid=101&language=en-GB",
-    coords: [105.8328, 21.0385],
-    logo: "Vietnam.png"
+    name: "PATENTS AND COMPANIES REGISTRATION AGENCY",
+    country: "Zambia",
+    website: "https://www.pacra.org.zm",
+    coords: [28.2885959, -15.4145863],
+    logo: "Zambia.jpg"
+    },
+    {
+    name: "Companies and Intellectual Property office of Zimbabwe",
+    country: "Zimbabwe",
+    website: "https://cipz.pfms.gov.zw",
+    coords: [31.045177, -17.8292091],
+    logo: "Zimbabwe.png"
     }
 ];
